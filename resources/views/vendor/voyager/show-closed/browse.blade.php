@@ -349,6 +349,16 @@
         };
 
         var fetchClosedShows = function(id){
+
+            $('div.app-container').block({ css: { 
+                border: 'none', 
+                padding: '15px', 
+                backgroundColor: '#000', 
+                '-webkit-border-radius': '10px', 
+                '-moz-border-radius': '10px', 
+                opacity: .5, 
+                color: '#fff' 
+            } });
             
             $.ajax({
                 url : "/fetch-closed-show/"+id,
@@ -356,9 +366,11 @@
                 success : function(resp) {
                     if(resp.status_code == 200){
                         populateClosedShow(resp.data);
+                        $('div.app-container').unblock();
                         $('#delete_modal').modal('show');
                     }else{
                         emptyFields();
+                        $('div.app-container').unblock();
                         $('#delete_modal').modal('show');
                     }
                     
@@ -464,6 +476,7 @@
                         toastr.success(resp.message);
                         $('#delete_modal').modal('hide');
                     }else{
+                        $('#delete_modal .modal-content').unblock();
                         toastr.error(resp.message);
                     }
                     
@@ -501,9 +514,7 @@
                 $('#ticket_gallary').val($(this).data('gallary-ticket'));
                 $('#ticket_box').val($(this).data('box-ticket'));
                 $('#screen_id').val($(this).data('screen-id'));
-                console.log('.................');
-                console.log($(this).data('gallary-ticket'));
-                console.log('.................');
+
                 if($(this).data('screen-id') == 1) {
                     $('#staff_gallary').parent().show();
                     $('#staff_box').parent().show();

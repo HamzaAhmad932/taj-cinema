@@ -13,7 +13,9 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'Taj Cinema'),
+
+    'app_footer_text' => env('APP_FOOTER_TEXT', 'Base4 Automation (03129660932)'),
 
     /*
     |--------------------------------------------------------------------------
