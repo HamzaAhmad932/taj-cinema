@@ -206,13 +206,15 @@ return [
     // Here you can specify additional assets you would like to be included in the master.blade
     'additional_css' => [
         'https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/build/css/bootstrap-datetimepicker.css',
-        // '/css/wizard.css'
     ],
 
     'additional_js' => [
         'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment-with-locales.js',
         'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js',
-        // '/js/wizard.js'
+    ],
+    'js_library'=>[
+        'http://localhost:8000/js/vue.js'
+        // asset('js/vue.js')
     ],
 
     'googlemaps' => [

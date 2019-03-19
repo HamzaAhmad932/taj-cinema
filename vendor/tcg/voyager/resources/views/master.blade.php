@@ -42,6 +42,9 @@
     @if(!empty(config('voyager.additional_css')))<!-- Additional CSS -->
         @foreach(config('voyager.additional_css') as $css)<link rel="stylesheet" type="text/css" href="{{ asset($css) }}">@endforeach
     @endif
+    @if(!empty(config('voyager.js_library')))<!-- Additional Javascript -->
+        @foreach(config('voyager.js_library') as $js)<script type="text/javascript" src="{{ asset($js) }}"></script>@endforeach
+    @endif
 
     @yield('head')
 </head>

@@ -326,17 +326,30 @@
             // let rep_hall_per = ($('#representative_hall').val()) == "" ? 0 : $('#representative_hall').val();
             let ac_percentage = ($('#ac_percentage').val()) == "" ? 0 : $('#ac_percentage').val();
             let salary_percentage = ($('#salary_percentage').val()) == "" ? 0 : $('#salary_percentage').val();
+            // let dist_per = ($('#distributor_percentage').val()) == "" ? 0 : $('#distributor_percentage').val();
+
+
+            let total_per = parseFloat(ac_percentage) + parseFloat(salary_percentage); //+ parseFloat(dist_per);
+            // let total_per = parseFloat(staff_hall_per) + parseFloat(staff_box_per) + parseFloat(staff_gallary_per) + parseFloat(rep_hall_per) + parseFloat(rep_gallary_per) + parseFloat(rep_box_per) + parseFloat(dist_per);
+
+            let t_collection = localStorage.getItem('remaining_amount_distributor');
+            let per_amount = (total_per/100)*t_collection;
+            let remaining_amount = t_collection - per_amount;
+            $('#remaining_amount').text(remaining_amount);
+            localStorage.setItem('remaining_amount_percentages', remaining_amount);
+        };
+        var calculateDistributerPercentage = function(){
             let dist_per = ($('#distributor_percentage').val()) == "" ? 0 : $('#distributor_percentage').val();
 
 
-            let total_per = parseFloat(ac_percentage) + parseFloat(salary_percentage) + parseFloat(dist_per);
+            let total_per = parseFloat(dist_per);//parseFloat(ac_percentage) + parseFloat(salary_percentage); //+ parseFloat(dist_per);
             // let total_per = parseFloat(staff_hall_per) + parseFloat(staff_box_per) + parseFloat(staff_gallary_per) + parseFloat(rep_hall_per) + parseFloat(rep_gallary_per) + parseFloat(rep_box_per) + parseFloat(dist_per);
 
             let t_collection = localStorage.getItem('remaining_amount');
             let per_amount = (total_per/100)*t_collection;
             let remaining_amount = t_collection - per_amount;
             $('#remaining_amount').text(remaining_amount);
-            localStorage.setItem('remaining_amount_percentages', remaining_amount);
+            localStorage.setItem('remaining_amount_distributor', remaining_amount);
         };
 
         var calculateRupeeAmount = function() {
@@ -554,7 +567,7 @@
             });
 
             $('#distributor_percentage').on('change, mouseup, keyup', function(e){
-                calculateStaffPercentages();
+                calculateDistributerPercentage();
             });
             
             $('#ac_percentage').on('change, mouseup, keyup', function(e){
