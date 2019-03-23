@@ -61,7 +61,7 @@
                                 @if (isset($row->details->formfields_custom))
                                     @include('voyager::formfields.custom.' . $row->details->formfields_custom)
                                 @else
-                                    <div class="form-group @if($row->type == 'hidden') hidden @endif col-md-{{ isset($display_options->width) ? $display_options->width : 12 }}" @if(isset($display_options->id)){{ "id=$display_options->id" }}@endif>
+                                    <div class="form-group @if($row->type == 'hidden') hidden @endif col-md-{{ isset($display_options->width) ? $display_options->width : 6 }}" @if(isset($display_options->id)){{ "id=$display_options->id" }}@endif>
                                         {{ $row->slugify }}
                                         <label for="name">{{ $row->display_name }}</label>
                                         @include('voyager::multilingual.input-hidden-bread-edit-add')
@@ -148,6 +148,7 @@
 
         $('document').ready(function () {
             $('.toggleswitch').bootstrapToggle();
+            $('input[name=id]').attr('disabled', 'true');
 
             //Init datepicker for date fields if data-datepicker attribute defined
             //or if browser does not handle date inputs
@@ -188,6 +189,14 @@
                 $('#confirm_delete_modal').modal('hide');
             });
             $('[data-toggle="tooltip"]').tooltip();
+
+
+
+            /*********************************************
+            *      Custom
+            **********************************************
+            */
+            $('input[name=id]').val('{{$acId}}');
         });
     </script>
 @stop

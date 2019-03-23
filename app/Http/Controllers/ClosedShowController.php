@@ -146,6 +146,10 @@ class ClosedShowController extends \TCG\Voyager\Http\Controllers\VoyagerBaseCont
                 $update->collection = $request->collection;
                 $update->save();
 
+                /***** Here Update Sales Account****/
+
+                // $accoutDetail = new AccountDetail();
+
                 return response()->json([
                     'status'=> 'success',
                     'status_code'=> 200,
@@ -161,6 +165,8 @@ class ClosedShowController extends \TCG\Voyager\Http\Controllers\VoyagerBaseCont
             $share->others = $request->others;
             $share->collection = $request->collection;
             $share->save();
+
+            // $accoutDetail = new AccountDetail();
 
             return response()->json([
                 'status'=> 'success',

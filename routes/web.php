@@ -24,5 +24,6 @@ Route::get('/fetch-closed-show/{id}', 'ClosedShowController@fetchShow')->name('s
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
-    // Route::get('/closed-shows', 'ShowController@index');
+    Route::get('/closed-shows', 'ShowController@index');
+    Route::get('/journel-entry', 'AccountDetailController@index');
 });

@@ -231,9 +231,9 @@ class AccountsController extends \TCG\Voyager\Http\Controllers\VoyagerBaseContro
         if (view()->exists("voyager::$slug.edit-add")) {
             $view = "voyager::$slug.edit-add";
         }
-        $showId = Show::latest()->first()->id +1;
+        $acId = Account::latest()->first()->id +1;
 
-        return Voyager::view($view, compact('dataType', 'dataTypeContent', 'isModelTranslatable', 'showId'));
+        return Voyager::view($view, compact('dataType', 'dataTypeContent', 'isModelTranslatable', 'acId'));
     }
     /**
      * POST BRE(A)D - Store data.
