@@ -97,10 +97,10 @@
                                         <td><p>{{$show->total_tickets}}</p></td>
                                         <td><p>{{$show->total_amount}}</p></td>
                                         <td>
-                                            <a href="javascript:;" title="Shares" class="btn btn-sm btn-danger delete" data-id="{{$show->id}}" data-amount="{{$show->total_amount}}" id="share-{{$show->id}}" data-distributor-name="{{$show->distributor->distributor_name}}" data-per-ticket-amount="{{$show->per_ticket_amount}}" data-total-tickets="{{$show->total_tickets}}" data-distributor-id="{{$show->distributor->id}}"
+                                            <button title="Shares" class="btn btn-sm btn-danger delete" data-id="{{$show->id}}" data-show-id="{{$show->show_id}}" data-amount="{{$show->total_amount}}" id="share-{{$show->id}}" data-distributor-name="{{$show->distributor->distributor_name}}" data-per-ticket-amount="{{$show->per_ticket_amount}}" data-total-tickets="{{$show->total_tickets}}" data-distributor-id="{{$show->distributor->id}}"
                                                 data-hall-ticket="{{$show->show->hall}}" data-gallary-ticket="{{$show->show->gallery}}" data-box-ticket="{{$show->show->box}}" data-screen-id="{{$show->show->screen->id}}">
                                                 <i class="voyager-edit"></i> <span class="hidden-xs hidden-sm">Shares</span>
-                                            </a>
+                                            </button>
                                         </td>
                                         <!-- <td class="no-sort no-click" id="bread-actions">
                                             <a href="javascript:;" title="Delete" class="btn btn-sm btn-danger pull-right delete" data-id="1" id="delete-1">
@@ -164,6 +164,7 @@
                             </div>
                         </div>
                         <form role="form">
+                            <input type="hidden" id="show_id" value="">
                             <input type="hidden" id="show_closed_id" value="">
                             <input type="hidden" id="total_amount" value="">
                             <input type="hidden" id="total_tickets" value="">
@@ -429,6 +430,7 @@
 
         var saveAllShares = function(){
             var data = {
+                show_id : '',
                 show_closed_id : '',
                 staff : {
                     hall : '',
@@ -454,6 +456,7 @@
                     amount : ''
                 }
             };
+            data.show_id = $('#show_id').val();
             data.show_closed_id = $('#show_closed_id').val();
             data.staff.hall = ($('#staff_hall').val()) == "" ? 0 : $('#staff_hall').val();
             data.staff.box = ($('#staff_box').val()) == "" ? 0 : $('#staff_box').val();
@@ -517,6 +520,7 @@
 
             $('td').on('click', '.delete', function (e) {
                 // $('#delete_form')[0].action = 'http://localhost:8000/admin/shows/__id'.replace('__id', $(this).data('id'));
+                $('#show_id').val($(this).data('show-id'));
                 $('#show_closed_id').val($(this).data('id'));
                 $('#total_amount').val($(this).data('amount'));
                 $('#total_tickets').val($(this).data('total-tickets'));

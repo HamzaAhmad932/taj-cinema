@@ -21,7 +21,92 @@ class AccountsController extends \TCG\Voyager\Http\Controllers\VoyagerBaseContro
 {
     use BreadRelationshipParser;
 
-    private $base_url = 'vendor.voyager.shows.';
+    // private $base_url = 'vendor.voyager.shows.';
+    private $base_url_ac = 'vendor.voyager.accounts';
+
+
+    /*******************************************************
+    * Custom Methods
+    /*******************************************************
+    */
+
+    public function coaAdd($type = null)
+    {
+
+        $getMaxId = Account::latest()->first()->id;
+        if($type == config('db_const.account.account_type.main_type')){
+            // Main
+        }
+        else if($type == config('db_const.account.account_type.sub_type')){
+            // Sub
+            $ac_parent = Account::where('parent_id', null)->where('type', 'M')->get();
+        }
+        else if($type == config('db_const.account.account_type.subsidiary_type')){
+            // Subsidiary
+            $ac_parent = Account::where('type', 'S')->get();
+        }
+
+
+        return view($this->base_url_ac.'.coa-add', compact(
+            'getMaxId',
+            'ac_parent',
+            'type'
+        ));
+    }
+
+    public function coaSave(Request $request){
+
+        if($request->type == 'M'){
+            $request->validate([
+                'account_name'=> 'required|unique:accounts',
+                'type'=> 'required'
+            ]);
+
+            $ac = new Account();
+            $ac->account_name = $request->account_name;
+            $ac->type = $request->type;
+            $ac->uuid = 'AC';
+            $ac->save();
+        }
+        else if($request->type == 'S'){
+            $request->validate([
+                'account_name'=> 'required|unique:accounts',
+                'type'=> 'required',
+                'parent_id'=> 'required'
+            ]);
+
+            $ac = new Account();
+            $ac->account_name = $request->account_name;
+            $ac->type = $request->type;
+            $ac->parent_id = $request->parent_id;
+            $ac->save();
+        }
+        else if ($request->type == 'SB') {
+            $request->validate([
+                'account_name'=> 'required|unique:accounts',
+                'type'=> 'required',
+                'parent_id'=> 'required'
+            ]);
+
+            $ac = new Account();
+            $ac->account_name = $request->account_name;
+            $ac->type = $request->type;
+            $ac->parent_id = $request->parent_id;
+            $ac->save();
+        }
+        else{
+            $request->validate([
+                'account_name'=> 'required|unique:accounts',
+                'type'=> 'required'
+            ]);
+        }
+
+        return response()->json([
+            'status'=> true,
+            'status_code'=> 200,
+            'message'=> 'Account created successfully.'
+        ]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -89,8 +174,9 @@ class AccountsController extends \TCG\Voyager\Http\Controllers\VoyagerBaseContro
         // Check if a default search key is set
         $defaultSearchKey = isset($dataType->default_search_key) ? $dataType->default_search_key : null;
 
-        $pAccounts = Account::where('parent_id', null)->get();
-        $accounts = Account::all();
+        $pAccounts = Account::where('type', 'M')->get();
+        $sAccounts = Account::where('type', 'S')->get();
+        $sbAccounts = Account::where('type', 'SB')->get();
 
         // dd($accounts);
 
@@ -112,8 +198,9 @@ class AccountsController extends \TCG\Voyager\Http\Controllers\VoyagerBaseContro
             'isServerSide',
             'defaultSearchKey',
             /** Custom */
-            'accounts',
-            'pAccounts'
+            'pAccounts',
+            'sAccounts',
+            'sbAccounts'
         ));
     }
 
@@ -171,7 +258,9 @@ class AccountsController extends \TCG\Voyager\Http\Controllers\VoyagerBaseContro
         if (view()->exists("voyager::$slug.edit-add")) {
             $view = "voyager::$slug.edit-add";
         }
-        return Voyager::view($view, compact('dataType', 'dataTypeContent', 'isModelTranslatable'));
+        $acId = $id;
+
+        return Voyager::view($view, compact('dataType', 'dataTypeContent', 'isModelTranslatable', 'acId'));
     }
     // POST BR(E)AD
     public function update(Request $request, $id)

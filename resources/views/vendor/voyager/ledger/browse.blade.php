@@ -6,12 +6,12 @@
 
 @section('page_header')
     <h1 class="page-title">
-        <i class="icon voyager-new"></i> Journel Entry
+        <i class="icon voyager-new"></i> Ledger
     </h1>
 @stop
 
 @section('content')
-    <div class="page-content edit-add container-fluid">
+    <div class="page-content container-fluid">
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-bordered">
@@ -38,9 +38,7 @@
                                    <td>@{{i+1}}</td>
                                    <td style="width: 200px;">
                                       <select name="account_id" v-model="j.account_id" id="account_id" class="form-control select2" v-select2>
-                                        @foreach($accounts as $ac)
-                                        <option value="{{$ac->id}}">{{$ac->account_name}}</option>
-                                        @endforeach()
+                                       
                                       </select>
                                    </td>
                                    <td>

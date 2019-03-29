@@ -18,12 +18,22 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::post('save-shares', 'ClosedShowController@storeShow')->name('save-shares');
+Route::post('save-shares', 'ClosedShowController@storeShare')->name('save-shares');
 Route::get('/fetch-closed-show/{id}', 'ClosedShowController@fetchShow')->name('share.edit');
 
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
+    /**
+     * Custom routes that has its own views and controller
+     */
     Route::get('/closed-shows', 'ShowController@index');
     Route::get('/journel-entry', 'AccountDetailController@index');
+    Route::get('/ledgers', 'LedgerController@index');
+    Route::get('/coa-add/{type}', 'AccountsController@coaAdd')->name('coa-add');
+
+    /**
+     * POST method routes for API calls
+     */
+    Route::post('save-coa', 'AccountsController@coaSave')->name('coa-save');
 });

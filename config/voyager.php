@@ -213,8 +213,12 @@ return [
         'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js',
     ],
     'js_library'=>[
-        'http://localhost:8000/js/vue.js'
-        // asset('js/vue.js')
+        'http://localhost:8000/js/app.js',
+        'http://localhost:8000/js/vue.js',
+        'http://localhost:8000/js/axios.js',
+        'http://localhost:8000/js/wizard.js',
+        'http://localhost:8000/js/blockui.js'
+        
     ],
 
     'googlemaps' => [

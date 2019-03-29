@@ -8,13 +8,19 @@
             <i class="{{ $dataType->icon }}"></i> {{ $dataType->display_name_plural }}
         </h1>
         @can('add', app($dataType->model_name))
-            <a href="{{ route('voyager.'.$dataType->slug.'.create') }}" class="btn btn-success btn-add-new">
-                <i class="voyager-plus"></i> <span>{{ __('voyager::generic.add_new') }}</span>
+            <a href="{{ route('coa-add', config('db_const.account.account_type.main_type')) }}" class="btn btn-success btn-add-new">
+                <i class="voyager-plus"></i> <span>ADD COA Main</span>
+            </a>
+            <a href="{{ route('coa-add', config('db_const.account.account_type.sub_type')) }}" class="btn btn-success btn-add-new">
+                <i class="voyager-plus"></i> <span>ADD COA Sub</span>
+            </a>
+            <a href="{{ route('coa-add', config('db_const.account.account_type.subsidiary_type')) }}" class="btn btn-success btn-add-new">
+                <i class="voyager-plus"></i> <span>ADD COA Subsidiary</span>
             </a>
         @endcan
-        @can('delete', app($dataType->model_name))
+        {{-- @can('delete', app($dataType->model_name))
             @include('voyager::partials.bulk-delete')
-        @endcan
+        @endcan --}}
         @can('edit', app($dataType->model_name))
             @if(isset($dataType->order_column) && isset($dataType->order_display_column))
                 <a href="{{ route('voyager.'.$dataType->slug.'.order') }}" class="btn btn-primary">
@@ -36,14 +42,22 @@
                         @foreach($pAccounts as $key1 => $account)
                             <span>{{$account->account_name}}</span>
                             <span class="pull-right"><a class="btn btn-danger delete" data-id="{{$account->id}}" href="">Delete</a></span>
-                            <span class="pull-right"><a class="btn btn-primary" href="">Edit</a></span>
+                            <span class="pull-right"><a class="btn btn-primary" href="{{ route('voyager.'.$dataType->slug.'.edit', $account->id) }}">Edit</a></span>
                             <hr>
-                            @foreach($accounts as $key2 => $sub)
+                            @foreach($sAccounts as $key2 => $sub)
                                 @if($sub->parent_id == $account->id)
                                 <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&nbsp;</span><span>{{$sub->account_name}}</span>
                                 <span class="pull-right" style="margin-left: 8px;"><a class="btn btn-danger" @click.prevent="test()" data-id="{{$sub->id}}">Delete</a></span>
-                                <span class="pull-right"><a class="btn btn-primary">Edit</a></span>
+                                <span class="pull-right"><a class="btn btn-primary" href="{{ route('voyager.'.$dataType->slug.'.edit', $sub->id) }}">Edit</a></span>
                                 <hr>
+                                @foreach($sbAccounts as $key3 => $sb)
+                                    @if($sb->parent_id == $sub->id)
+                                    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;----&nbsp;</span><span>{{$sb->account_name}}</span>
+                                    <span class="pull-right" style="margin-left: 8px;"><a class="btn btn-danger" @click.prevent="test()" data-id="{{$sb->id}}">Delete</a></span>
+                                    <span class="pull-right"><a class="btn btn-primary" href="{{ route('voyager.'.$dataType->slug.'.edit', $sb->id) }}">Edit</a></span>
+                                    <hr>
+                                    @endif()
+                                @endforeach()
                                 @endif()
                             @endforeach()
                         @endforeach()

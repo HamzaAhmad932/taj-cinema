@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Account extends Model
 {
+    const TYPE_MAIN = 'M';
+    const TYPE_SUB = 'S';
+    const TYPE_SUBSIDIARY = 'SB';
  
     public function parent()
     {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Account;
 use Illuminate\Http\Request;
 
 class AccountDetailController extends Controller
@@ -11,6 +12,8 @@ class AccountDetailController extends Controller
 
     public function index(){
 
-    	return view($this->baseURL.'.add');
+    	$accounts = Account::where('type', 'SB')->get();
+
+    	return view($this->baseURL.'.add', compact('accounts'));
     }
 }
