@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\AccountDetail;
 use Illuminate\Database\Eloquent\Model;
 
 
@@ -24,4 +25,8 @@ class Account extends Model
 	{
 	   return $this->children()->with('childrenRecursive');
 	}
+
+    public function account_detail(){
+        return $this->hasMany(AccountDetail::class);
+    }
 }

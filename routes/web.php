@@ -14,6 +14,7 @@
 Route::get('/', function () {
     return view('welcome');
 });
+// Route::get('/test', 'LedgerController@showLedger');
 
 Auth::routes();
 
@@ -33,7 +34,9 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/coa-add/{type}', 'AccountsController@coaAdd')->name('coa-add');
 
     /**
-     * POST method routes for API calls
+     * Method routes for API calls
      */
     Route::post('save-coa', 'AccountsController@coaSave')->name('coa-save');
+    Route::post('g-ledger', 'LedgerController@showLedger')->name('ledger-fetch');
+    Route::post('jv-entry', 'AccountDetailController@jvEntry')->name('jv-entry');
 });

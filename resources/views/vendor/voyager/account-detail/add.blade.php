@@ -20,7 +20,7 @@
                             <div class="col-md-6"></div>
                             <div class="col-md-6 text-right">
                               <button class="btn btn-primary" @click.prevent="addNewRow()">ADD New Row</button>
-                              <button class="btn btn-success btn-add-new">Save</button>  
+                              <button class="btn btn-success btn-add-new" @click="saveJE()">Save</button>  
                             </div>
                         </div>
                        <table class="table table-striped table-bordered">
@@ -66,6 +66,7 @@
 @stop
 
 @section('javascript')
+<script type="text/javascript" src="{{asset('js/blockui.js')}}"></script>
     <script>
 
       Vue.directive('select2', {
@@ -100,7 +101,8 @@
                         debit : '',
                         credit : '',
                     }
-                    ]
+                    ],
+                    allow : false
                 }
             },
 
@@ -115,10 +117,56 @@
                 });
               },
               removeRow(i){
-                if(this.jv.length > 1){
+                if(this.jv.length > 2){
                     this.jv.splice(i, 1);
                 }
               },
+              saveJE() {
+                $('body').block({ css: { 
+                    border: 'none', 
+                    padding: '15px', 
+                    backgroundColor: '#000', 
+                    '-webkit-border-radius': '10px', 
+                    '-moz-border-radius': '10px', 
+                    opacity: .5, 
+                    color: '#fff' 
+                } });
+
+                let data = this.jv;
+                axios({
+                    url : "{{route('jv-entry')}}",
+                    method : "POST",
+                    data : {data}
+                })
+                .then((resp)=>{
+                    $('body').unblock();
+                    if(resp.data.status == true && resp.data.status_code == 200) {
+                        toastr.success(resp.data.message);
+                        this.jv = [{
+                            date : '',
+                            account_id : '',
+                            description : '',
+                            debit : '',
+                            credit : '',
+                        },
+                        {
+                            date : '',
+                            account_id : '',
+                            description : '',
+                            debit : '',
+                            credit : '',
+                        }
+                        ];
+                    }
+                })
+                .catch((err)=>{
+                    $('body').unblock();
+                    console.log(err);
+                });
+              },
+              allow() {
+                console.log(this.jv);
+              }
             }
         });
     </script>
